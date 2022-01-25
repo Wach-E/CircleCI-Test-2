@@ -9,8 +9,6 @@ Resources:
       KeyName: flask
       ImageId: "ami-0892d3c7ee96c0bf7" # you may need to find out what instance types are available in your region - use https://cloud-images.ubuntu.com/locator/ec2/
       InstanceType: t2.micro
-      Key: Name
-      Value: CircleCI-CD
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
