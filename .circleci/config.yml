@@ -1,7 +1,7 @@
 version: 2.1
 
-orbs:
-  aws-cli: circleci/aws-cli@2.0.3
+# orbs:
+#   aws-cli: circleci/aws-cli@2.0.3
 
 jobs:
   create_infrastructure:
@@ -15,8 +15,38 @@ jobs:
             aws cloudformation deploy --template-file template.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
             --region us-west-2
             echo "done"
+      - run:
+          name: Connect to infrastructure
+          command: |
+            echo "[app-server]" > ~/inventory
+            aws ec2 describe-instances --instance-ids i-0c9c9b44b --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+      - save_cache:
+          key: inventory-{{ checksum "inventory"}}
+          paths:
+            - ~/inventory
 
+  configure_infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - restore_cache:
+          key: inventory-{{ checksum "inventory"}}
+      - add_ssh_keys:
+          # You can get this ID in the section where you registered the SSH Key
+          fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
+      - run:
+          name: Install Ansible
+          command: |
+            apk add --update ansible
+      - run:
+          name: Run Playbook and Configure server
+          command: |
+            ansible-playbook -i inventory main.yaml
 workflows:
   deploy:
     jobs:
       - create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_infrastructure
