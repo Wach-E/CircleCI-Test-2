@@ -29,21 +29,21 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: pm-server-config
+          key: server-config
           paths:
-            - ~/inventory.txt
+            - ~/project/inventory.txt
 
   configure_infrastructure:
     docker:
       - image: cimg/base:stable-20.04
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - pm-server-config
       - add_ssh_keys:
           # You can get this ID in the section where you registered the SSH Key
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
+      - restore_cache:
+          keys:
+            - server-config
       - run:
           name: Move Inventory to project folder
           command: |
