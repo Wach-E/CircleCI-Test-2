@@ -18,10 +18,8 @@ jobs:
       - run:
           name: Connect to infrastructure
           command: |
-            apt install cloud-utils
-            export EC2_INSTANCE_ID=$(ec2metadata --instance-id)
             echo "[app-server]" > ~/inventory
-            aws ec2 describe-instances --instance-ids $EC2_INSTANCE_ID --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+            aws ec2 describe-instances --instance-ids $(ec2metadata --instance-id) --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - run:
           name: Response to infra failure
           command: |
