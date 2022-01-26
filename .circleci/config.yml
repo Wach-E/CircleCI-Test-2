@@ -15,10 +15,10 @@ jobs:
       - run:
           name: Connect to infrastructure
           command: |
-            echo "[app]" > ~/inventory.txt
+            echo "[app]" > ~/inventory
             sleep 90
-            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
-            cat ~/inventory.txt
+            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory
+            cat ~/inventory
       - run:
           name: Response to infra failure
           command: |
@@ -26,9 +26,9 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: inventory-config-file
+          key: config-file
           paths:
-            - ~/inventory.txt
+            - ~/inventory
 
   configure_infrastructure:
     docker:
@@ -40,7 +40,7 @@ jobs:
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - restore_cache:
           keys:
-            - inventory-config-file
+            - config-file
       - run:
           name: Install Ansible
           command: |
