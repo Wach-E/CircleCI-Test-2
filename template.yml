@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: 2020-09-09
-Description: CD Pipeline
+AWSTemplateFormatVersion: 2010-09-09
+Description: CD Pipeline for PM Server
 Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
@@ -13,7 +13,7 @@ Resources:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: Enable SSH access via port 22 and 3000
-      GroupName: PM-Server
+      GroupName:
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: "22"
