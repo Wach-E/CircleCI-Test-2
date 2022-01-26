@@ -44,8 +44,10 @@ jobs:
       - run:
           name: Install Ansible
           command: |
-            sudo easy_install pip
-            sudo pip install ansible
+            sudo apt-get install software-properties-common
+            sudo apt-add-repository ppa:ansible/ansible
+            sudo apt-get update
+            sudo apt-get install ansible
       - run:
           name: Run Playbook and Configure server
           command: |
