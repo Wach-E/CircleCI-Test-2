@@ -26,25 +26,19 @@ jobs:
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
             --region us-west-2
           when: on_fail
-      - persist_to_workspace:
-          root: ~/
+      - save_cache:
+          key: inventory-{{ .Branch}}
           paths:
-            - inventory
-      # - save_cache:
-      #     key: inventory-{{ checksum "inventory"}}
-      #     paths:
-      #       - ~/project/inventory
+            - ~/project/inventory
 
   configure_infrastructure:
     docker:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/inventory
       - restore_cache:
           keys:
-            - inventory-{{ checksum "inventory"}}
+            - inventory-{{ .Branch"}}
             - inventory-
       - add_ssh_keys:
           # You can get this ID in the section where you registered the SSH Key
