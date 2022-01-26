@@ -1,8 +1,5 @@
 version: 2.1
 
-# orbs:
-#   aws-cli: circleci/aws-cli@2.0.3
-
 jobs:
   create_infrastructure:
     docker:
@@ -44,10 +41,6 @@ jobs:
       - restore_cache:
           keys:
             - server-config
-      - run:
-          name: Move Inventory to project folder
-          command: |
-            mv ~/inventory.txt ~/project/inventory
       - run:
           name: Install Ansible
           command: |
