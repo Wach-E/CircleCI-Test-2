@@ -18,10 +18,10 @@ jobs:
       - run:
           name: Connect to infrastructure
           command: |
-            echo "[app-server]" > ~/inventory
-            sleep 100
-            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory
-            cat ~/inventory
+            echo "[app-server]" > ~/inventory.txt
+            sleep 90
+            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
+            cat ~/inventory.txt
       - run:
           name: Response to infra failure
           command: |
@@ -29,9 +29,9 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: inventory
+          key: inventory-{{ checksum "inventory.txt" }}
           paths:
-            - ~/inventory
+            - ~/inventory.txt
 
   configure_infrastructure:
     docker:
@@ -39,14 +39,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: inventory
+          keys:
+            - inventory-{{ checksum "inventory.txt" }}
+            - inventory-
       - add_ssh_keys:
           # You can get this ID in the section where you registered the SSH Key
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - run:
           name: Move Inventory to project folder
           command: |
-            mv ~/inventory ~/project/inventory
+            mv ~/inventory.txt ~/project/inventory
       - run:
           name: Install Ansible
           command: |

@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: ND9991 C3 L4
+AWSTemplateFormatVersion: 2022-26-01
+Description: CD Pipeline with CircleCI
 Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
