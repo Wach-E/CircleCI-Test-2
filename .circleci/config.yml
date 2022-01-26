@@ -29,7 +29,7 @@ jobs:
       - save_cache:
           key: inventory-{{ checksum "inventory"}}
           paths:
-            - ~/inventory
+            - ~/project/inventory
 
   configure_infrastructure:
     docker:
