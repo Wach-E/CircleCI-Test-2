@@ -1,6 +1,6 @@
 ---
 - name: "configuration play"
-  hosts: ubuntu
+  hosts: app-server
   user: ubuntu
   become: true
   become_user: sudo
