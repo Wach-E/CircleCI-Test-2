@@ -27,7 +27,7 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: inventory-{{ .Branch}}
+          key: inventory
           paths:
             - ~/project/inventory
 
@@ -37,9 +37,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - inventory-{{ .Branch"}}
-            - inventory-
+          key: inventory
       - add_ssh_keys:
           # You can get this ID in the section where you registered the SSH Key
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
