@@ -19,7 +19,7 @@ jobs:
           name: Connect to infrastructure
           command: |
             echo "[app-server]" > ~/inventory
-            aws ec2 describe-instances --filters Name=security-group-name,Values=PM-Server --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+            aws ec2 describe-instances --filters Name=instance.group-name,Values=PM-Server --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
             cat ~/inventory
       - run:
           name: Response to infra failure
