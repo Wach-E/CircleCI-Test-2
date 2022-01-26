@@ -29,7 +29,7 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: inventory-{{ checksum "inventory.txt" }}
+          key: pm-server-config
           paths:
             - ~/inventory.txt
 
@@ -40,8 +40,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - inventory-{{ checksum "inventory.txt" }}
-            - inventory-
+            - pm-server-config
       - add_ssh_keys:
           # You can get this ID in the section where you registered the SSH Key
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
