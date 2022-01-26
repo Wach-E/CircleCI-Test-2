@@ -26,7 +26,7 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: pm-config
+          key: inventory-config
           paths:
             - ~/project/inventory.txt
 
@@ -40,12 +40,12 @@ jobs:
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - restore_cache:
           keys:
-            - pm-config
+            - inventory-config
       - run:
           name: Install Ansible
           command: |
-            sudo apt install python3-pip
-            pip install --user ansible
+            sudo apt install python-pip3
+            pip3 install --user ansible
       - run:
           name: Run Playbook and Configure server
           command: |
