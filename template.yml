@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: 2020-01-01
-Description: CD Pipeline with CircleCI
+AWSTemplateFormatVersion: 2022-09-09
+Description: CD Pipeline
 Resources:
   EC2Instance:
     Type: "AWS::EC2::Instance"
