@@ -19,7 +19,7 @@ jobs:
           name: Connect to infrastructure
           command: |
             echo "[app-server]" > ~/inventory
-            aws ec2 describe-instances --filters Name=name,Values=PM-server --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
       - run:
           name: Response to infra failure
           command: |
