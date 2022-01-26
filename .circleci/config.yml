@@ -20,6 +20,7 @@ jobs:
           command: |
             echo "[app-server]" > ~/inventory
             aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory
+            cat ~/inventory
       - run:
           name: Response to infra failure
           command: |
