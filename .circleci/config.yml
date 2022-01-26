@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Connect to infrastructure
           command: |
-            echo "[app-server]" > ~/inventory.txt
+            echo "[app]" > ~/inventory.txt
             sleep 90
             aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.txt
             cat ~/inventory.txt
@@ -26,7 +26,7 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: inventory-config
+          key: inventory-config-file
           paths:
             - ~/inventory.txt
 
@@ -40,11 +40,7 @@ jobs:
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - restore_cache:
           keys:
-            - inventory-config
-      - run:
-          name: Move inventory to ptoject
-          command: |
-            sudo mv /root/inventory.txt /home/circleci/project/
+            - inventory-config-file
       - run:
           name: Install Ansible
           command: |
