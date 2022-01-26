@@ -42,10 +42,6 @@ jobs:
           # You can get this ID in the section where you registered the SSH Key
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - run:
-          name: Move inventory file
-          command: |
-            cp -r ~/inventory ~/project/inventory
-      - run:
           name: Install Ansible
           command: |
             apk add --update ansible
