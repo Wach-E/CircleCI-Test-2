@@ -13,6 +13,7 @@ Resources:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: Enable SSH access via port 22 and 3000
+      GroupName: PM-Server
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: "22"
