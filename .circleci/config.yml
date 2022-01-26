@@ -26,9 +26,9 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: invent-config
+          key: inventory-config
           paths:
-            - ~/project/inventory.txt
+            - ~/inventory.txt
 
   configure_infrastructure:
     docker:
@@ -40,7 +40,11 @@ jobs:
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - restore_cache:
           keys:
-            - invent-config
+            - inventory-config
+      - run:
+          name: Move inventory to ptoject
+          command: |
+            sudo mv /root/inventory.txt /home/circleci/project/
       - run:
           name: Install Ansible
           command: |
