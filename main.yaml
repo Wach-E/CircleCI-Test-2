@@ -1,7 +1,7 @@
 ---
 - name: "configuration play"
   hosts: app
-  user: ubuntu
+  remote_user: ubuntu
   become: true
   become_user: root
   gather_facts: false
