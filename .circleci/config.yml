@@ -18,7 +18,7 @@ jobs:
             echo "[app]" > ~/inventory
             sleep 90
             aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicDnsName' --output text >> ~/inventory
-            chmod 777 inventory
+            chmod 777 ~/inventory
             cat ~/inventory
       - run:
           name: Response to infra failure
