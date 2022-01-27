@@ -26,7 +26,7 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: inventory
+          key: inventory-check
           paths:
             - ~/inventory
 
@@ -39,7 +39,11 @@ jobs:
           # You can get this ID in the section where you registered the SSH Key
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - restore_cache:
-          key: inventory
+          key: inventory-check
+      - run:
+          name: Copy inventory file to project
+          command: |
+            sudo cp -r /root/inventory /home/circleci/
       - run:
           name: Install Ansible
           command: |
