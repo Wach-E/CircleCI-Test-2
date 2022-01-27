@@ -17,7 +17,7 @@ jobs:
           command: |
             echo "[app]" > ~/inventory
             sleep 90
-            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory
+            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicDnsName' --output text >> ~/inventory
             cat ~/inventory
       - run:
           name: Response to infra failure
@@ -26,7 +26,7 @@ jobs:
             --region us-west-2
           when: on_fail
       - save_cache:
-          key: ansibile-inventory-config
+          key: inventory-{{ .Environment.CACHE_VERSION }}-{{ checksum "inventory" }}
           paths:
             - ~/inventory
 
@@ -40,7 +40,7 @@ jobs:
           fingerprints: ["ac:30:22:7c:87:70:c1:59:c4:40:ee:da:c9:e0:50:af"]
       - restore_cache:
           keys:
-            - ansibile-inventory-config
+            - inventory-{{ .Environment.CACHE_VERSION }}-{{checksum "inventory" }}
       - run:
           name: Install Ansible
           command: |
