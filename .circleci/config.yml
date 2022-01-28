@@ -49,10 +49,10 @@ jobs:
           at: ~/
       # - restore_cache:
       #     key: inventory-check-va
-      - run:
-          name: Copy inventory file to project
-          command: |
-            sudo cp -r ~/inventory /home/circleci/
+      # - run:
+      #     name: Copy inventory file to project
+      #     command: |
+      #       sudo cp -r ~/inventory /home/circleci/
       - run:
           name: Install Ansible
           command: |
