@@ -17,7 +17,7 @@ jobs:
           name: Connect to infrastructure
           command: |
             echo "[app]" > ~/inventory.ini
-            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicDnsName' --output text >> ~/inventory.ini
+            aws ec2 describe-instances --filters Name=key-name,Values=flask --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory.ini
             chmod 777 ~/inventory.ini
             cat ~/inventory.ini
       - persist_to_workspace:
@@ -31,11 +31,6 @@ jobs:
             --region us-west-2
           when: on_fail
 
-      # - save_cache:
-      #     key: inventory-check-va
-      #     paths:
-      #       - ~/inventory.ini
-
   configure_infrastructure:
     docker:
       - image: cimg/base:stable-20.04
@@ -47,12 +42,6 @@ jobs:
       - run: sudo apt install -y tar gzip
       - attach_workspace:
           at: ~/
-      # - restore_cache:
-      #     key: inventory-check-va
-      # - run:
-      #     name: Copy inventory file to project
-      #     command: |
-      #       sudo cp -r ~/inventory /home/circleci/
       - run:
           name: Install Ansible
           command: |
